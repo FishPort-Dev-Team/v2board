@@ -127,7 +127,7 @@ class UserController extends Controller
         } else {
             $params['invite_user_id'] = null;
         }
-
+        $params['transfer_plan_enable'] = $params['transfer_enable'];
         try {
             $user->update($params);
         } catch (\Exception $e) {
@@ -152,16 +152,17 @@ class UserController extends Controller
             }
         }
 
-        $data = "邮箱,余额,推广佣金,总流量,剩余流量,套餐到期时间,订阅计划,订阅地址\r\n";
+        $data = "邮箱,余额,推广佣金,总流量,总套餐流量,剩余流量,套餐到期时间,订阅计划,订阅地址\r\n";
         foreach($res as $user) {
             $expireDate = $user['expired_at'] === NULL ? '长期有效' : date('Y-m-d H:i:s', $user['expired_at']);
             $balance = $user['balance'] / 100;
             $commissionBalance = $user['commission_balance'] / 100;
             $transferEnable = $user['transfer_enable'] ? $user['transfer_enable'] / 1073741824 : 0;
+            $transferPlanEnable = $user['transfer_plan_enable'] ? $user['transfer_plan_enable'] / 1073741824 : 0;
             $notUseFlow = (($user['transfer_enable'] - ($user['u'] + $user['d'])) / 1073741824) ?? 0;
             $planName = $user['plan_name'] ?? '无订阅';
             $subscribeUrl = Helper::getSubscribeUrl('/api/v1/client/subscribe?token=' . $user['token']);
-            $data .= "{$user['email']},{$balance},{$commissionBalance},{$transferEnable},{$notUseFlow},{$expireDate},{$planName},{$subscribeUrl}\r\n";
+            $data .= "{$user['email']},{$balance},{$commissionBalance},{$transferEnable},{$transferPlanEnable},{$notUseFlow},{$expireDate},{$planName},{$subscribeUrl}\r\n";
         }
         echo "\xEF\xBB\xBF" . $data;
     }
@@ -180,6 +181,7 @@ class UserController extends Controller
                 'plan_id' => isset($plan->id) ? $plan->id : NULL,
                 'group_id' => isset($plan->group_id) ? $plan->group_id : NULL,
                 'transfer_enable' => isset($plan->transfer_enable) ? $plan->transfer_enable * 1073741824 : 0,
+                'transfer_plan_enable' => isset($plan->transfer_enable) ? $plan->transfer_enable * 1073741824 : 0,
                 'expired_at' => $request->input('expired_at') ?? NULL,
                 'uuid' => Helper::guid(true),
                 'token' => Helper::guid()
