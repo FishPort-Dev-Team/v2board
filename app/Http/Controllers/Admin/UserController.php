@@ -217,6 +217,7 @@ class UserController extends Controller
                 'plan_id' => isset($plan->id) ? $plan->id : NULL,
                 'group_id' => isset($plan->group_id) ? $plan->group_id : NULL,
                 'transfer_enable' => isset($plan->transfer_enable) ? $plan->transfer_enable * 1073741824 : 0,
+                'transfer_plan_enable' => isset($plan->transfer_enable) ? $plan->transfer_enable * 1073741824 : 0,
                 'expired_at' => $request->input('expired_at') ?? NULL,
                 'uuid' => Helper::guid(true),
                 'token' => Helper::guid(),
