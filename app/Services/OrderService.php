@@ -273,6 +273,7 @@ class OrderService
             $this->user->expired_at = time();
         }
         $this->user->transfer_enable = $plan->transfer_enable * 1073741824;
+        $this->user->transfer_plan_enable = $plan->transfer_enable * 1073741824;
         // 从一次性转换到循环
         if ($this->user->expired_at === NULL) $this->buyByResetTraffic();
         // 新购
@@ -286,6 +287,7 @@ class OrderService
     {
         $this->buyByResetTraffic();
         $this->user->transfer_enable = $plan->transfer_enable * 1073741824;
+        $this->user->transfer_plan_enable = $plan->transfer_enable * 1073741824;
         $this->user->plan_id = $plan->id;
         $this->user->group_id = $plan->group_id;
         $this->user->expired_at = NULL;

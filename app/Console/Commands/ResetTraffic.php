@@ -117,7 +117,8 @@ class ResetTraffic extends Command
         }
         User::whereIn('id', $users)->update([
             'u' => 0,
-            'd' => 0
+            'd' => 0,
+            'transfer_enable' => User::raw('transfer_plan_enable')
         ]);
     }
 
@@ -126,7 +127,8 @@ class ResetTraffic extends Command
         if ((string)date('md') === '0101') {
             $builder->update([
                 'u' => 0,
-                'd' => 0
+                'd' => 0,
+                'transfer_enable' => User::raw('transfer_plan_enable')
             ]);
         }
     }
@@ -136,7 +138,8 @@ class ResetTraffic extends Command
         if ((string)date('d') === '01') {
             $builder->update([
                 'u' => 0,
-                'd' => 0
+                'd' => 0,
+                'transfer_enable' => User::raw('transfer_plan_enable')
             ]);
         }
     }
@@ -158,7 +161,8 @@ class ResetTraffic extends Command
         }
         User::whereIn('id', $users)->update([
             'u' => 0,
-            'd' => 0
+            'd' => 0,
+            'transfer_enable' => User::raw('transfer_plan_enable')
         ]);
     }
 }
