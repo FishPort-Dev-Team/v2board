@@ -15,8 +15,12 @@ class ManageController extends Controller
     public function getNodes(Request $request)
     {
         $serverService = new ServerService();
+        $serverList = $serverService->getAllServers();
+        for ($i=0;$i<count($serverList);$i++){
+            $serverList[$i]['host'] = $serverList[$i]['host'].",".$serverList[$i]['p_host'];
+        }
         return response([
-            'data' => $serverService->getAllServers()
+            'data' => $serverList
         ]);
     }
 

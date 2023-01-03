@@ -47,6 +47,9 @@ class TrafficFetchJob implements ShouldQueue
         $user = User::lockForUpdate()->find($this->userId);
         if (!$user) return;
 
+        if (time() - $user->t > 60) {
+            $user->use_time = $user->use_time + 1;
+        }
         $user->t = time();
         $user->u = $user->u + ($this->u * $this->server['rate']);
         $user->d = $user->d + ($this->d * $this->server['rate']);

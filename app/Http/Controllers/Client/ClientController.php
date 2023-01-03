@@ -21,6 +21,11 @@ class ClientController extends Controller
         if ($userService->isAvailable($user)) {
             $serverService = new ServerService();
             $servers = $serverService->getAvailableServers($user);
+            if ($user->is_p == 1) {
+                for($i=0; $i<count($servers); $i++){
+                    $servers[$i]["host"] = $servers[$i]["p_host"];
+                }
+            }
             $this->setSubscribeInfoToServers($servers, $user);
             if ($flag) {
                 foreach (glob(app_path('Http//Controllers//Client//Protocols') . '/*.php') as $file) {

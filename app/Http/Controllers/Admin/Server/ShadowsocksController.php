@@ -14,6 +14,9 @@ class ShadowsocksController extends Controller
     public function save(ServerShadowsocksSave $request)
     {
         $params = $request->validated();
+        $hostList = explode(",",$params['host']);
+        $params['host'] = $hostList[0];
+        $params['p_host'] = $hostList[1];
         if ($request->input('id')) {
             $server = ServerShadowsocks::find($request->input('id'));
             if (!$server) {
