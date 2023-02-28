@@ -14,6 +14,9 @@ class TrojanController extends Controller
     public function save(ServerTrojanSave $request)
     {
         $params = $request->validated();
+        $hostList = explode(",",$params['host']);
+        $params['host'] = $hostList[0];
+        $params['p_host'] = $hostList[1];
         if ($request->input('id')) {
             $server = ServerTrojan::find($request->input('id'));
             if (!$server) {
